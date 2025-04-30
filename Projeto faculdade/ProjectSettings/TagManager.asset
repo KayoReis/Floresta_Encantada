@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags:
+  - Gem
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - floor
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: BackGround
+    uniqueID: 871109679
+    locked: 0
+  - name: Character
+    uniqueID: 2733860467
+    locked: 0
+  - name: ForeGround
+    uniqueID: 1127958415
+    locked: 0
+  - name: HUD
+    uniqueID: 3421416919
+    locked: 0
+  - name: GameOver
+    uniqueID: 173034179
+    locked: 0
+  m_RenderingLayers:
+  - Default
