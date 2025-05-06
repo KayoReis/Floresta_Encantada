@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
 
+    public Lumberjack lumberjack;
     public Bee bee;
 
     public ForestHeart ForestHeartClass;
@@ -15,7 +16,7 @@ public class GameController : MonoBehaviour
     public int TotalScore;
     [SerializeField] private static int PointstoWin = 3;
 
-    public int TotalTries= 1;
+    public int TotalTries = 1;
     public TMP_Text ScoreText;
     public Canvas Endgame;
     public TMP_Text TriesText;
@@ -28,6 +29,21 @@ public class GameController : MonoBehaviour
 
     public TMP_Text ForestHeartText;
 
+    public bool skipAddTries = false;
+    public void Start()
+    {
+        if (!bee.gameObject.activeSelf)
+        {
+            Destroy(bee.gameObject);
+        }
+
+        if (!lumberjack.gameObject.activeSelf)
+        {
+            Destroy(lumberjack.gameObject);
+        }
+
+
+    }
 
     public void UpdateScoreText()
     {
@@ -39,10 +55,11 @@ public class GameController : MonoBehaviour
         if (TotalScore >= PointstoWin)
         {
             Endgame.gameObject.SetActive(true);
-            personagem.canMove=false;
+            personagem.canMove = false;
             Time.timeScale = 0f;
             EndTriesText.text = "Em " + TotalTries.ToString() + "X tentativas";
-            if(ForestHeartClass.Gotcha == true){
+            if (ForestHeartClass.Gotcha == true)
+            {
                 ForestHeartText.gameObject.SetActive(true);
             }
 
@@ -75,7 +92,6 @@ public class GameController : MonoBehaviour
 
     public void DeathReset()
     {
-
         TotalScore = 0;
         UpdateScoreText();
         ForestHeartCathc.gameObject.SetActive(false);
@@ -86,9 +102,26 @@ public class GameController : MonoBehaviour
         personagem.spriteRenderer.flipX = false;
         personagem.facingright = true;
         ForestHeartClass.transform.position = ForestHeartClass.InitialPosition;
-        bee.transform.position = bee.initialposition;
-        bee.Lastposition = bee.initialposition;
+        if (bee != null)
+        {
+            bee.transform.position = bee.initialposition;
+            bee.Lastposition = bee.initialposition;
+        }
+        if (lumberjack != null){
+             lumberjack.gameObject.SetActive(true);
+            lumberjack.playerDead = false;
+            lumberjack.agent.isStopped=false;
+            lumberjack.animator.SetBool("Dying",false);
+            lumberjack.animator.Play("Walk");
+             Collider2D[] colliders = lumberjack.GetComponents<Collider2D>();
+        foreach (var col in colliders)
+        {
+            col.enabled = true;
+        }
+           
+        }
         ForestHeartClass.Gotcha = false;
+        ForestHeartText.gameObject.SetActive(false);
         Transform gemsPai = GameObject.Find("Gem").transform; // Nome do objeto pai
         foreach (Transform child in gemsPai)
         {
@@ -107,11 +140,13 @@ public class GameController : MonoBehaviour
         personagem.canMove = true;
         personagem.canGlideAgain = true;
         personagem.rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-
-
-        AddTries();
-
-
+        
+        Debug.Log(TotalTries);
+        if (!skipAddTries)
+        {
+            AddTries();
+        }
+        skipAddTries = false;
 
     }
 

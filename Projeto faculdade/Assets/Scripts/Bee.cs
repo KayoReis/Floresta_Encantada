@@ -16,14 +16,17 @@ public Personagem personagem;
 
     void Start()
     {
+        if (gameObject != null){
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         initialposition = transform.position;
         Lastposition = transform.position;
+        }
     }
 
        void Update()
     {
+        if (gameObject != null){
         transform.position = Vector2.MoveTowards(transform.position,personagem.transform.position, 1.5f* Time.deltaTime); 
 
         direction = transform.position - Lastposition;
@@ -35,11 +38,12 @@ public Personagem personagem;
         }
 
         Lastposition = transform.position;
-
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (gameObject != null){
         if(collision.CompareTag("Player")){
             
             personagem.animator.SetBool("Deathing", true);
@@ -50,5 +54,6 @@ public Personagem personagem;
             personagem.rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
         }
+    }
     }
 }

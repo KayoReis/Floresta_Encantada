@@ -4,7 +4,7 @@ using UnityEngine;
 public class ForestHeart : MonoBehaviour
 {
     public GameController gameController;
-    public bool Gotcha;
+    public bool Gotcha = false;
 
 public Transform Hud;
   

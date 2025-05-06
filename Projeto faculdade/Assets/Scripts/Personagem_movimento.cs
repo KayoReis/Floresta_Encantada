@@ -54,6 +54,8 @@ public class Personagem : MonoBehaviour
     public bool canMove = true;
 
     public Vector2 InitialPosition;
+
+    private bool inPlatform = false;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -82,9 +84,11 @@ public class Personagem : MonoBehaviour
                 Isturning = true;
                 animator.SetBool(turningrigthHash, true);
                 turningTimer = turningDuration;
+                if(!inPlatform){
                 StartCoroutine(Nudge(Vector3.right, 0.5f, 0.31f));
+                }
             }
-            else if (isRunning && !Ismoving)
+            else if (isRunning && !Ismoving && !inPlatform)
             {
                 StartCoroutine(Nudge(Vector3.right, 0.1f, 0.05f));
             }
@@ -124,12 +128,14 @@ public class Personagem : MonoBehaviour
                     Isturning = true;
                     animator.SetBool(turningleftHash, true);
                     turningTimer = turningDuration;
+                    if (!inPlatform){
                     StartCoroutine(Nudge(Vector3.left, 0.5f, 0.31f));
+                    }
                 }
                 else
                 {
                     spriteRenderer.flipX = true;
-                    if (isRunning && !Ismoving)
+                    if (isRunning && !Ismoving && !inPlatform)
                     {
                         StartCoroutine(Nudge(Vector3.left, 0.1f, 0.05f));
                     }
@@ -380,6 +386,23 @@ public class Personagem : MonoBehaviour
             {
                 animator.SetBool(RunningHash, false);
             }
+        }
+
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Platform"){
+            gameObject.transform.parent = collision.transform;
+            inPlatform = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Platform"){
+            gameObject.transform.parent = null;
+            inPlatform = false;
         }
     }
 
